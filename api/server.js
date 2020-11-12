@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 
 const { PORT, MONGODB_URL } = require("./helpers/constants");
+const userRouter = require("./user/user.router");
 
 class Server {
   constructor() {
@@ -26,7 +27,9 @@ class Server {
     this.server.use(cors());
   }
 
-  initRoute() {}
+  initRoute() {
+    this.server.use("/user", userRouter);
+  }
 
   async initDbConnection() {
     try {

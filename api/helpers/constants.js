@@ -6,6 +6,6 @@ require("dotenv").config({
 module.exports = {
   MONGODB_URL: process.env.MONGODB_URL,
   PORT: process.env.PORT,
-  SALT_ROUNDS: process.env.SALT_ROUNDS,
+  SALT_ROUNDS: Number(process.env.SALT_ROUNDS),
   SECRET_KEY: process.env.SECRET_KEY,
 };
