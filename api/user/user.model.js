@@ -23,8 +23,8 @@ userSchema.method("isPasswordValid", async function (password) {
   return bcrypt.compare(password, this.password);
 });
 
-userSchema.method("generateToken", () => {
-  return jwt.sign({ _id: this._id }, SECRET_KEY, { expiresIn: 600 });
+userSchema.method("generateToken", function () {
+  return jwt.sign({ id: this._id }, SECRET_KEY, { expiresIn: 600 });
 });
 
 module.exports = mongoose.model("User", userSchema);

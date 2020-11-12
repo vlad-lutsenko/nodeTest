@@ -37,7 +37,7 @@ class UserController {
 
       await newUser.save();
 
-      res.status(200).send(token);
+      res.status(201).send(token);
     } catch (error) {
       console.error(error);
       res.status(500).send({ message: "server error" });
@@ -67,6 +67,12 @@ class UserController {
       console.error(error);
       res.status(500).send({ message: "server error" });
     }
+  }
+
+  getInfo(req, res) {
+    const user = req.user;
+    const { id, idType } = user;
+    res.status(200).send({ id, idType });
   }
 }
 
