@@ -19,9 +19,8 @@ userSchema.pre("save", async function (next) {
   return next();
 });
 
-userSchema.method("isPasswordValid", async (password) => {
-  const result = await bcrypt.compare(password, this.password);
-  return result;
+userSchema.method("isPasswordValid", async function (password) {
+  return bcrypt.compare(password, this.password);
 });
 
 userSchema.method("generateToken", () => {

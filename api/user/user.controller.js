@@ -17,9 +17,9 @@ class UserController {
         return res.status(400).send({ message: "invalid input" });
       }
 
-      const isUserExists = await userModel.findOne({ id });
+      const doesUserExist = await userModel.findOne({ id });
 
-      if (isUserExists) {
+      if (doesUserExist) {
         return res
           .status(409)
           .send({ message: "user with such id already exists" });
@@ -40,6 +40,32 @@ class UserController {
       res.status(200).send(token);
     } catch (error) {
       console.error(error);
+      res.status(500).send({ message: "server error" });
+    }
+  }
+
+  async loginUser(req, res) {
+    try {
+      const { id, password } = req.body;
+
+      const user = await userModel.findOne({ id });
+      if (!user) {
+        return res.status(409).send({ message: "invalid input" });
+      }
+
+      const passwordValidation = await user.isPasswordValid(password);
+      if (!passwordValidation) {
+        return res.status(409).send({ message: "invalid input" });
+      }
+
+      const token = user.generateToken();
+      user.token = token;
+      await user.save();
+
+      res.status(200).send(token);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({ message: "server error" });
     }
   }
 }
